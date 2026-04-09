@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOM v2.0.24h - Hack-O-Mania Command Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #050505;
+            color: #e2e8f0;
+            overflow: hidden;
+        }
+        
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        
+        .glass-panel {
+            background: rgba(20, 20, 25, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        }
+        
+        .tab-active {
+            background: rgba(99, 102, 241, 0.15);
+            border-left: 3px solid #6366f1;
+            color: #818cf8;
+        }
+        
+        .urgent { 
+            color: #ef4444; 
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; 
+        }
+        
+        .warning { color: #f59e0b; }
+        .success { color: #10b981; }
+        .danger { color: #ef4444; font-weight: bold; }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        
+        .code-block {
+            background: #1a1a1a;
+            border-left: 3px solid #6366f1;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .penalty-card {
+            border-left: 3px solid #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
+        
+        .round-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        
+        .round-1 { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .round-2 { background: rgba(139, 92, 246, 0.2); color: #a78bfa; }
+        .round-3 { background: rgba(236, 72, 153, 0.2); color: #f472b6; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        
+        .timer-display {
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -1px;
+        }
+        
+        .presence-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+        
+        .present { background: #10b981; box-shadow: 0 0 8px #10b981; }
+        .absent { background: #ef4444; }
+        
+        .blink { animation: blinker 1.5s linear infinite; }
+        @keyframes blinker { 50% { opacity: 0; } }
+    </style>
+</head>
+<body class="h-screen flex flex-col">
+
+    <!-- Top Bar -->
+    <header class="glass-panel border-b border-white/10 px-6 py-3 flex justify-between items-center z-50">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/30">T</div>
+            <div>
+                <h1 class="text-lg font-bold tracking-tight">TOM <span class="text-xs text-gray-500 font-normal">v2.0.30h</span></h1>
+                <div class="text-xs text-gray-400">Hack-O-Mania | NMIMS Library</div>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-8">
+            <!-- Presence Monitor -->
+            <div class="hidden md:flex items-center gap-4 px-4 py-2 bg-black/30 rounded-lg border border-white/10">
+                <div class="text-xs text-gray-400 uppercase tracking-wider">Team Presence</div>
+                <div id="presence-status" class="flex items-center gap-2 text-sm font-semibold text-green-400">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Compliant</span>
+                </div>
+            </div>
+
+            <!-- Timer -->
+            <div class="text-center">
+                <div class="text-xs text-red-400 uppercase tracking-wider font-bold">T-Minus</div>
+                <div id="countdown" class="text-3xl font-bold mono timer-display text-white">30:00:00</div>
+            </div>
+            
+            <button onclick="toggleZenMode()" class="p-2 hover:bg-white/10 rounded-lg transition-colors" title="Zen Mode">
+                <i class="fas fa-expand"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+        <!-- Sidebar -->
+        <nav class="w-16 glass-panel border-r border-white/10 flex flex-col items-center py-4 gap-3">
+            <button onclick="switchTab('dashboard')" class="tab-btn w-11 h-11 rounded-lg flex items-center justify-center hover:bg-white/10 transition-all tab-active" data-tab="dashboard" title="Command Center">
+                <i class="fas fa-radar text-lg"></i>
+            </button>
+            <button onclick="switchTab('strategy')" class="tab-btn w-11 h-11 rounded-lg flex items-center justify-center hover:bg-white/10 transition-all" data-tab="strategy" title="Strategy Advisor">
+                <i class="fas fa-chess-knight text-lg"></i>
+            </button>
+            <button onclick="switchTab('tasks')" class="tab-btn w-11 h-11 rounded-lg flex items-center justify-center hover:bg-white/10 transition-all" data-tab="tasks" title="Task Board">
+                <i class="fas fa-tasks text-lg"></i>
+            </button>
+            <button onclick="switchTab('analyzer')" class="tab-btn w-11 h-11 rounded-lg flex items-center justify-center hover:bg-white/10 transition-all" data-tab="analyzer" title="Project Analyzer">
+                <i class="fas fa-microscope text-lg"></i>
+            </button>
+            <button onclick="switchTab('rules')" class="tab-btn w-11 h-11 rounded-lg flex items-center justify-center hover:bg-white/10 transition-all" data-tab="rules" title="Rule Monitor">
+                <i class="fas fa-gavel text-lg"></i>
+            </button>
+            <button onclick="switchTab('code')" class="tab-btn w-11 h-11 rounded-lg flex items-center justify-center hover:bg-white/10 transition-all" data-tab="code" title="Code Vault">
+                <i class="fas fa-code text-lg"></i>
+            </button>
+            <button onclick="switchTab('api')" class="tab-btn w-11 h-11 rounded-lg flex items-center justify-center hover:bg-white/10 transition-all" data-tab="api" title="API Tester">
+                <i class="fas fa-plug text-lg"></i>
+            </button>
+            <button onclick="switchTab('team')" class="tab-btn w-11 h-11 rounded-lg flex items-center justify-center hover:bg-white/10 transition-all" data-tab="team" title="Team Sync">
+                <i class="fas fa-users text-lg"></i>
+            </button>
+            
+            <div class="mt-auto mb-4 flex flex-col gap-3">
+                <div id="bag-status" class="w-11 h-11 rounded-lg flex items-center justify-center bg-red-500/20 text-red-400 border border-red-500/30 cursor-help" title="Bag Access: NOT USED YET">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <button onclick="emergencyProtocol()" class="w-11 h-11 rounded-lg flex items-center justify-center bg-red-600/20 text-red-500 hover:bg-red-600/30 border border-red-500/30 transition-all" title="Emergency Protocol">
+                    <i class="fas fa-sos"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-hidden relative bg-gradient-to-br from-gray-900 to-black">
+            
+            <!-- DASHBOARD TAB -->
+            <div id="dashboard" class="tab-content h-full overflow-y-auto p-6 space-y-6">
+                <!-- Critical Alerts Banner -->
+                <div id="critical-alerts" class="hidden space-y-2 mb-6">
+                    <!-- Populated by JS -->
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Time Strategy -->
+                    <div class="glass-panel p-6 rounded-xl lg:col-span-2">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-bold text-lg flex items-center gap-2">
+                                <i class="fas fa-clock text-indigo-400"></i> Strategic Timeline
+                            </h3>
+                            <span id="current-phase-badge" class="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold border border-blue-500/30">PHASE: PLANNING</span>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex justify-between text-sm text-gray-400 mb-1">
+                                <span>Elapsed</span>
+                                <span id="time-remaining-label">30h remaining</span>
+                            </div>
+                            <div class="w-full bg-gray-800 h-3 rounded-full overflow-hidden">
+                                <div id="progress-timeline" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
+                            </div>
+                            
+                            <div class="grid grid-cols-5 gap-2 text-center text-xs">
+                                <div class="p-2 rounded bg-blue-500/20 border border-blue-500/30">
+                                    <div class="font-bold text-blue-300">0-3h</div>
+                                    <div class="text-gray-400">Planning</div>
+                                </div>
+                                <div class="p-2 rounded bg-purple-500/10 border border-white/10">
+                                    <div class="font-bold text-purple-300">3-23h</div>
+                                    <div class="text-gray-400">Build</div>
+                                </div>
+                                <div class="p-2 rounded bg-pink-500/10 border border-white/10">
+                                    <div class="font-bold text-pink-300">23-27h</div>
+                                    <div class="text-gray-400">Polish</div>
+                                </div>
+                                <div class="p-2 rounded bg-orange-500/10 border border-white/10">
+                                    <div class="font-bold text-orange-300">27-29h</div>
+                                    <div class="text-gray-400">Pitch</div>
+                                </div>
+                                <div class="p-2 rounded bg-green-500/10 border border-white/10">
+                                    <div class="font-bold text-green-300">29-30h</div>
+                                    <div class="text-gray-400">Buffer</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg flex items-start gap-3">
+                            <i class="fas fa-exclamation-triangle text-yellow-400 mt-1"></i>
+                            <div class="text-sm text-yellow-200">
+                                <strong>Current Focus:</strong> <span id="strategic-focus">Define core features for Round 1 judging. Don't code yet.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Presence Tracker -->
+                    <div class="glass-panel p-6 rounded-xl border-l-4 border-indigo-500">
+                        <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                            <i class="fas fa-user-check text-indigo-400"></i> Presence Monitor
+                        </h3>
+                        
+                        <div class="mb-4">
+                            <label class="text-xs text-gray-400 uppercase tracking-wider block mb-2">Team Size</label>
+                            <select id="team-size" onchange="updatePresence()" class="w-full bg-black/30 border border-white/10 rounded-lg p-2 text-sm focus:border-indigo-500 focus:outline-none">
+                                <option value="5">5 Members</option>
+                                <option value="4">4 Members</option>
+                                <option value="3">3 Members</option>
+                            </select>
+                        </div>
+
+                        <div class="space-y-2 mb-4" id="team-presence-list">
+                            <!-- Generated by JS -->
+                        </div>
+
+                        <div class="p-3 bg-black/30 rounded-lg border border-white/10">
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-gray-400">Minimum Required:</span>
+                                <span id="min-required" class="font-bold text-white">3 present</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm mt-1">
+                                <span class="text-gray-400">Currently:</span>
+                                <span id="current-present" class="font-bold text-green-400">5 present</span>
+                            </div>
+                        </div>
+                        
+                        <button onclick="toggleMemberLeave()" class="w-full mt-3 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-sm transition-colors">
+                            <i class="fas fa-walking mr-2"></i>Mark Member Leaving
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="glass-panel p-4 rounded-xl border-l-2 border-blue-400">
+                        <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Round 1 Readiness</div>
+                        <div class="text-2xl font-bold text-blue-400" id="r1-score">--</div>
+                        <div class="text-xs text-gray-500 mt-1">Idea validation</div>
+                    </div>
+                    <div class="glass-panel p-4 rounded-xl border-l-2 border-purple-400">
+                        <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Tasks Complete</div>
+                        <div class="text-2xl font-bold text-purple-400" id="tasks-complete">0/0</div>
+                        <div class="text-xs text-gray-500 mt-1">Keep momentum</div>
+                    </div>
+                    <div class="glass-panel p-4 rounded-xl border-l-2 border-pink-400">
+                        <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Penalty Risk</div>
+                        <div class="text-2xl font-bold text-green-400" id="penalty-risk">LOW</div>
+                        <div class="text-xs text-gray-500 mt-1">No violations</div>
+                    </div>
+                    <div class="glass-panel p-4 rounded-xl border-l-2 border-orange-400">
+                        <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Next Milestone</div>
+                        <div class="text-lg font-bold text-orange-400" id="next-milestone">R1 Judging</div>
+                        <div class="text-xs text-gray-500 mt-1" id="milestone-time">T-minus --</div>
+                    </div>
+                </div>
+
+                <!-- Emergency Reminders -->
+                <div class="glass-panel p-6 rounded-xl border border-red-500/20 bg-red-500/5">
+                    <h3 class="font-bold text-lg mb-4 text-red-400 flex items-center gap-2">
+                        <i class="fas fa-shield-alt"></i> VENUE RULES — DO NOT BREAK
+                    </h3>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm">
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-ban text-red-400 mt-1"></i>
+                            <div>
+                                <strong class="text-white">No Food/Drinks</strong>
+                                <div class="text-gray-400">-5 points per incident. Eat outside.</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-phone-slash text-red-400 mt-1"></i>
+                            <div>
+                                <strong class="text-white">No Calls Inside</strong>
+                                <div class="text-gray-400">-5 points. Step outside for calls.</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-shopping-bag text-yellow-400 mt-1"></i>
+                            <div>
+                                <strong class="text-white">Bag Access: ONCE ONLY</strong>
+                                <div class="text-gray-400">Plan accordingly. Click bag icon when used.</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-wifi text-blue-400 mt-1"></i>
+                            <div>
+                                <strong class="text-white">2 Credentials Only</strong>
+                                <div class="text-gray-400">Do not share. Mumbai campus monitoring.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STRATEGY TAB -->
+            <div id="strategy" class="tab-content hidden h-full overflow-y-auto p-6 space-y-6">
+                <h2 class="text-2xl font-bold mb-6">Strategic Advisor</h2>
+                
+                <div class="grid lg:grid-cols-2 gap-6">
+                    <!-- Round 1 Strategy -->
+                    <div class="glass-panel p-6 rounded-xl border-l-4 border-blue-500">
+                        <h3 class="font-bold text-xl mb-4 text-blue-400">Round 1: Idea Validation (15 pts)</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" class="mt-1 rounded bg-black/30 border-white/20" onchange="updateStrategy()">
+                                <div>
+                                    <div class="font-semibold text-sm">Problem Alignment (5 pts)</div>
+                                    <div class="text-xs text-gray-400">Does your solution directly address the company problem statement?</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" class="mt-1 rounded bg-black/30 border-white/20" onchange="updateStrategy()">
+                                <div>
+                                    <div class="font-semibold text-sm">Innovation & Creativity (5 pts)</div>
+                                    <div class="text-xs text-gray-400">Is your approach unique? Not just "another app"?</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" class="mt-1 rounded bg-black/30 border-white/20" onchange="updateStrategy()">
+                                <div>
+                                    <div class="font-semibold text-sm">Clarity & Presentation (5 pts)</div>
+                                    <div class="text-xs text-gray-400">Can you explain the problem + solution in 2 minutes?</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-3 bg-blue-500/10 rounded-lg text-sm text-blue-200">
+                            <strong>Focus:</strong> Perfect your pitch. Judges need to "get it" immediately. Don't demo yet, just explain.
+                        </div>
+                    </div>
+
+                    <!-- Round 2 Strategy -->
+                    <div class="glass-panel p-6 rounded-xl border-l-4 border-purple-500">
+                        <h3 class="font-bold text-xl mb-4 text-purple-400">Round 2: Technical Strategy (20 pts)</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" class="mt-1 rounded bg-black/30 border-white/20" onchange="updateStrategy()">
+                                <div>
+                                    <div class="font-semibold text-sm">Technical Approach (10 pts)</div>
+                                    <div class="text-xs text-gray-400">Using PostgreSQL? Appropriate frameworks? ML/APIs justified?</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" class="mt-1 rounded bg-black/30 border-white/20" onchange="updateStrategy()">
+                                <div>
+                                    <div class="font-semibold text-sm">Workflow & Architecture (5 pts)</div>
+                                    <div class="text-xs text-gray-400">Can you draw the system architecture? Database schema ready?</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3
