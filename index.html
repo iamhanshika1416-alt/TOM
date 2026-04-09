@@ -1,3 +1,7 @@
+I'll complete this TOM Command Center for you. Here's the full implementation:
+
+```html
+<h1 style="color:white">HELLO GITHUB</h1>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,12 +13,12 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;800&display=swap');
         
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #050505;
-            color: #e2e8f0;
-            overflow: hidden;
-        }
+       body {
+    font-family: 'Inter', sans-serif;
+    background: #050505;
+    color: #e2e8f0;
+    min-height: 100vh;
+}
         
         .mono { font-family: 'JetBrains Mono', monospace; }
         
@@ -93,6 +97,12 @@
         
         .blink { animation: blinker 1.5s linear infinite; }
         @keyframes blinker { 50% { opacity: 0; } }
+
+        .hidden { display: none; }
+        
+        input[type="checkbox"] {
+            accent-color: #6366f1;
+        }
     </style>
 </head>
 <body class="h-screen flex flex-col">
@@ -158,7 +168,7 @@
             </button>
             
             <div class="mt-auto mb-4 flex flex-col gap-3">
-                <div id="bag-status" class="w-11 h-11 rounded-lg flex items-center justify-center bg-red-500/20 text-red-400 border border-red-500/30 cursor-help" title="Bag Access: NOT USED YET">
+                <div id="bag-status" onclick="useBag()" class="w-11 h-11 rounded-lg flex items-center justify-center bg-green-500/20 text-green-400 border border-green-500/30 cursor-pointer hover:bg-green-500/30 transition-all" title="Bag Access: Click to Use">
                     <i class="fas fa-shopping-bag"></i>
                 </div>
                 <button onclick="emergencyProtocol()" class="w-11 h-11 rounded-lg flex items-center justify-center bg-red-600/20 text-red-500 hover:bg-red-600/30 border border-red-500/30 transition-all" title="Emergency Protocol">
@@ -380,4 +390,1045 @@
                                     <div class="text-xs text-gray-400">Can you draw the system architecture? Database schema ready?</div>
                                 </div>
                             </div>
-                            <div class="flex items-start gap-3
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" class="mt-1 rounded bg-black/30 border-white/20" onchange="updateStrategy()">
+                                <div>
+                                    <div class="font-semibold text-sm">Functionality Progress (5 pts)</div>
+                                    <div class="text-xs text-gray-400">Core features working? Don't need UI polish, need working backend.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-3 bg-purple-500/10 rounded-lg text-sm text-purple-200">
+                            <strong>Focus:</strong> Justify your stack. Why React? Why Node? Why PostgreSQL? Have ER diagrams ready.
+                        </div>
+                    </div>
+
+                    <!-- Round 3 Strategy -->
+                    <div class="glass-panel p-6 rounded-xl border-l-4 border-pink-500">
+                        <h3 class="font-bold text-xl mb-4 text-pink-400">Round 3: Prototype Refinement (25 pts)</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" class="mt-1 rounded bg-black/30 border-white/20" onchange="updateStrategy()">
+                                <div>
+                                    <div class="font-semibold text-sm">Prototype Implementation (10 pts)</div>
+                                    <div class="text-xs text-gray-400">Core features fully working? End-to-end flow functional?</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" class="mt-1 rounded bg-black/30 border-white/20" onchange="updateStrategy()">
+                                <div>
+                                    <div class="font-semibold text-sm">Code Quality & Complexity (10 pts)</div>
+                                    <div class="text-xs text-gray-400">Clean code? Design patterns? API integrations? Difficulty level?</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" class="mt-1 rounded bg-black/30 border-white/20" onchange="updateStrategy()">
+                                <div>
+                                    <div class="font-semibold text-sm">Design & UI/UX (5 pts)</div>
+                                    <div class="text-xs text-gray-400">Modern interface? Mobile responsive? Intuitive flow?</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-3 bg-pink-500/10 rounded-lg text-sm text-pink-200">
+                            <strong>Focus:</strong> Working demo > perfect code. But clean code gets you to 60/60. Polish the UI heavily.
+                        </div>
+                    </div>
+
+                    <!-- Submission Strategy -->
+                    <div class="glass-panel p-6 rounded-xl border-l-4 border-orange-500">
+                        <h3 class="font-bold text-xl mb-4 text-orange-400">Final Submission Checklist</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" class="mt-1 rounded bg-black/30 border-white/20" id="chk-code">
+                                <div>
+                                    <div class="font-semibold text-sm">Source Code (GitHub Public)</div>
+                                    <div class="text-xs text-gray-400">Repo must be public with README</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" class="mt-1 rounded bg-black/30 border-white/20" id="chk-docs">
+                                <div>
+                                    <div class="font-semibold text-sm">Documentation</div>
+                                    <div class="text-xs text-gray-400">Setup instructions, architecture diagrams</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" class="mt-1 rounded bg-black/30 border-white/20" id="chk-ppt">
+                                <div>
+                                    <div class="font-semibold text-sm">Presentation (PPT)</div>
+                                    <div class="text-xs text-gray-400">Problem, solution, demo, future scope</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" class="mt-1 rounded bg-black/30 border-white/20" id="chk-demo">
+                                <div>
+                                    <div class="font-semibold text-sm">Demo Video (2-3 min)</div>
+                                    <div class="text-xs text-gray-400">Screen recording with voiceover</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-3 bg-orange-500/10 rounded-lg text-sm text-orange-200">
+                            <strong>Warning:</strong> Missing any component = -10 points. A complete submission beats brilliant but incomplete work.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Priority Matrix -->
+                <div class="glass-panel p-6 rounded-xl">
+                    <h3 class="font-bold text-lg mb-4">Priority Matrix (Do First)</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+                            <h4 class="font-bold text-red-400 mb-2">High Impact, Low Effort</h4>
+                            <ul class="text-sm space-y-1 text-gray-300">
+                                <li>• Define problem statement clearly</li>
+                                <li>• Create GitHub repo + README</li>
+                                <li>• Basic wireframes (Figma/paper)</li>
+                                <li>• Database schema design</li>
+                            </ul>
+                        </div>
+                        <div class="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+                            <h4 class="font-bold text-yellow-400 mb-2">High Impact, High Effort</h4>
+                            <ul class="text-sm space-y-1 text-gray-300">
+                                <li>• Core functionality working</li>
+                                <li>• API integrations</li>
+                                <li>• Authentication system</li>
+                                <li>• Database setup & seeding</li>
+                            </ul>
+                        </div>
+                        <div class="p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
+                            <h4 class="font-bold text-blue-400 mb-2">Low Impact, Low Effort</h4>
+                            <ul class="text-sm space-y-1 text-gray-300">
+                                <li>• Color scheme tweaking</li>
+                                <li>• Font selection</li>
+                                <li>• Button hover effects</li>
+                                <li>• Minor CSS adjustments</li>
+                            </ul>
+                        </div>
+                        <div class="p-4 bg-gray-500/10 border border-gray-500/30 rounded-lg">
+                            <h4 class="font-bold text-gray-400 mb-2">Low Impact, High Effort</h4>
+                            <ul class="text-sm space-y-1 text-gray-300">
+                                <li>• Advanced animations</li>
+                                <li>• Dark/light mode toggle</li>
+                                <li>• Complex state management</li>
+                                <li>• Over-engineering features</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TASKS TAB -->
+            <div id="tasks" class="tab-content hidden h-full overflow-y-auto p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">Task Board</h2>
+                    <button onclick="addTask()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm font-semibold transition-colors">
+                        <i class="fas fa-plus mr-2"></i>Add Task
+                    </button>
+                </div>
+
+                <div class="flex gap-2 mb-4 overflow-x-auto pb-2">
+                    <button onclick="filterTasks('all')" class="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-xs transition-colors">All</button>
+                    <button onclick="filterTasks('r1')" class="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 hover:bg-blue-500/30 text-xs transition-colors">Round 1</button>
+                    <button onclick="filterTasks('r2')" class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 text-xs transition-colors">Round 2</button>
+                    <button onclick="filterTasks('r3')" class="px-3 py-1 rounded-full bg-pink-500/20 text-pink-300 hover:bg-pink-500/30 text-xs transition-colors">Round 3</button>
+                    <button onclick="filterTasks('rule')" class="px-3 py-1 rounded-full bg-red-500/20 text-red-300 hover:bg-red-500/30 text-xs transition-colors">Compliance</button>
+                </div>
+
+                <div id="task-list" class="space-y-2">
+                    <!-- Tasks populated by JS -->
+                </div>
+            </div>
+
+            <!-- ANALYZER TAB -->
+            <div id="analyzer" class="tab-content hidden h-full overflow-y-auto p-6">
+                <h2 class="text-2xl font-bold mb-6">Project Analyzer</h2>
+                
+                <div class="grid lg:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div class="glass-panel p-4 rounded-xl">
+                            <label class="block text-sm font-medium mb-2">Project Name</label>
+                            <input type="text" id="proj-name" class="w-full bg-black/30 border border-white/10 rounded-lg p-2 text-sm" placeholder="e.g., MedTrack AI">
+                        </div>
+                        
+                        <div class="glass-panel p-4 rounded-xl">
+                            <label class="block text-sm font-medium mb-2">Problem Statement</label>
+                            <textarea id="proj-problem" rows="3" class="w-full bg-black/30 border border-white/10 rounded-lg p-2 text-sm" placeholder="What company problem are you solving?"></textarea>
+                        </div>
+                        
+                        <div class="glass-panel p-4 rounded-xl">
+                            <label class="block text-sm font-medium mb-2">Solution Description</label>
+                            <textarea id="proj-solution" rows="4" class="w-full bg-black/30 border border-white/10 rounded-lg p-2 text-sm" placeholder="Key features and unique value proposition..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="glass-panel p-4 rounded-xl">
+                            <label class="block text-sm font-medium mb-2">Tech Stack</label>
+                            <textarea id="proj-stack" rows="3" class="w-full bg-black/30 border border-white/10 rounded-lg p-2 text-sm" placeholder="Frontend, Backend, Database, APIs..."></textarea>
+                        </div>
+
+                        <div class="glass-panel p-4 rounded-xl">
+                            <h3 class="font-bold mb-3">Submission Components</h3>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" id="has-code" class="rounded bg-black/30 border-white/20">
+                                    <span class="text-sm">GitHub Repo (Public)</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" id="has-docs" class="rounded bg-black/30 border-white/20">
+                                    <span class="text-sm">Documentation</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" id="has-ppt" class="rounded bg-black/30 border-white/20">
+                                    <span class="text-sm">Presentation</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" id="has-demo" class="rounded bg-black/30 border-white/20">
+                                    <span class="text-sm">Demo Video</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" id="has-proto" class="rounded bg-black/30 border-white/20">
+                                    <span class="text-sm">Working Prototype</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button onclick="analyzeProject()" class="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 rounded-lg font-semibold transition-all">
+                            Analyze Project
+                        </button>
+                    </div>
+                </div>
+
+                <div id="analysis-result" class="mt-6 hidden">
+                    <!-- Analysis results populated here -->
+                </div>
+            </div>
+
+            <!-- RULES TAB -->
+            <div id="rules" class="tab-content hidden h-full overflow-y-auto p-6">
+                <h2 class="text-2xl font-bold mb-6">Rule Monitor & Violations</h2>
+                
+                <div class="grid lg:grid-cols-2 gap-6 mb-6">
+                    <div class="glass-panel p-6 rounded-xl border-l-4 border-red-500">
+                        <h3 class="font-bold text-xl mb-4 text-red-400">Instant Disqualification</h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex items-start gap-3 p-3 bg-red-500/10 rounded-lg border border-red-500/20">
+                                <i class="fas fa-skull-crossbones text-red-400 mt-1"></i>
+                                <div>
+                                    <div class="font-bold text-white">Pre-existing Code</div>
+                                    <div class="text-gray-400">Using code written before hackathon starts</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-red-500/10 rounded-lg border border-red-500/20">
+                                <i class="fas fa-skull-crossbones text-red-400 mt-1"></i>
+                                <div>
+                                    <div class="font-bold text-white">Unauthorized Materials</div>
+                                    <div class="text-gray-400">Moving papers, notes, or pen drives in/out</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-red-500/10 rounded-lg border border-red-500/20">
+                                <i class="fas fa-skull-crossbones text-red-400 mt-1"></i>
+                                <div>
+                                    <div class="font-bold text-white">No College ID</div>
+                                    <div class="text-gray-400">Must carry at all times</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-red-500/10 rounded-lg border border-red-500/20">
+                                <i class="fas fa-skull-crossbones text-red-400 mt-1"></i>
+                                <div>
+                                    <div class="font-bold text-white">Late Submission</div>
+                                    <div class="text-gray-400">>30 minutes past deadline</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-6 rounded-xl border-l-4 border-yellow-500">
+                        <h3 class="font-bold text-xl mb-4 text-yellow-400">Point Deductions</h3>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center p-3 bg-black/30 rounded-lg border border-white/10">
+                                <span class="text-sm">Food/Drinks inside venue</span>
+                                <span class="text-red-400 font-bold font-mono">-5 pts</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-black/30 rounded-lg border border-white/10">
+                                <span class="text-sm">Phone call inside venue</span>
+                                <span class="text-red-400 font-bold font-mono">-5 pts</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-black/30 rounded-lg border border-white/10">
+                                <span class="text-sm">Leaving without permission</span>
+                                <span class="text-red-400 font-bold font-mono">-10 pts</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-black/30 rounded-lg border border-white/10">
+                                <span class="text-sm">Late submission (per 10 min)</span>
+                                <span class="text-red-400 font-bold font-mono">-5 pts</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-black/30 rounded-lg border border-white/10">
+                                <span class="text-sm">Missing submission component</span>
+                                <span class="text-red-400 font-bold font-mono">-10 pts</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-black/30 rounded-lg border border-white/10">
+                                <span class="text-sm">Minimum presence violation</span>
+                                <span class="text-red-400 font-bold font-mono">-5 pts</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-xl">
+                    <h3 class="font-bold text-lg mb-4">Log Violation</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <button onclick="logViolation('food', 5)" class="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 rounded-lg text-sm text-red-300 transition-colors">
+                            Food/Drink (-5)
+                        </button>
+                        <button onclick="logViolation('call', 5)" class="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 rounded-lg text-sm text-red-300 transition-colors">
+                            Phone Call (-5)
+                        </button>
+                        <button onclick="logViolation('leave', 10)" class="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 rounded-lg text-sm text-red-300 transition-colors">
+                            Left Venue (-10)
+                        </button>
+                        <button onclick="logViolation('late', 5)" class="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 rounded-lg text-sm text-red-300 transition-colors">
+                            Late (-5)
+                        </button>
+                        <button onclick="logViolation('component', 10)" class="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 rounded-lg text-sm text-red-300 transition-colors">
+                            Missing Item (-10)
+                        </button>
+                    </div>
+                    
+                    <div id="violation-log" class="mt-4 space-y-2">
+                        <!-- Violations logged here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- CODE TAB -->
+            <div id="code" class="tab-content hidden h-full overflow-y-auto p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">Code Vault</h2>
+                    <button onclick="addSnippet()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm font-semibold transition-colors">
+                        <i class="fas fa-plus mr-2"></i>Save Snippet
+                    </button>
+                </div>
+
+                <div id="snippet-list" class="space-y-4">
+                    <!-- Snippets populated by JS -->
+                </div>
+            </div>
+
+            <!-- API TAB -->
+            <div id="api" class="tab-content hidden h-full overflow-y-auto p-6">
+                <h2 class="text-2xl font-bold mb-6">API Tester</h2>
+                
+                <div class="glass-panel p-4 rounded-xl mb-4">
+                    <div class="flex gap-2 mb-4">
+                        <select id="api-method" class="bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-sm">
+                            <option>GET</option>
+                            <option>POST</option>
+                            <option>PUT</option>
+                            <option>DELETE</option>
+                        </select>
+                        <input type="text" id="api-url" class="flex-1 bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-sm" placeholder="https://api.example.com/endpoint">
+                        <button onclick="testAPI()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm font-semibold">
+                            Send
+                        </button>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-2">Headers (JSON)</label>
+                            <textarea id="api-headers" rows="4" class="w-full bg-black/30 border border-white/10 rounded-lg p-2 text-sm font-mono" placeholder='{"Authorization": "Bearer token"}'></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-2">Body (JSON)</label>
+                            <textarea id="api-body" rows="4" class="w-full bg-black/30 border border-white/10 rounded-lg p-2 text-sm font-mono" placeholder='{"key": "value"}'></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-4 rounded-xl">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="font-bold">Response</h3>
+                        <span id="api-status" class="text-xs px-2 py-1 rounded bg-gray-700">Ready</span>
+                    </div>
+                    <pre id="api-response" class="code-block p-4 rounded-lg text-sm overflow-x-auto text-green-400">// Response will appear here...</pre>
+                </div>
+            </div>
+
+            <!-- TEAM TAB -->
+            <div id="team" class="tab-content hidden h-full overflow-y-auto p-6">
+                <h2 class="text-2xl font-bold mb-6">Team Sync</h2>
+                
+                <div class="grid lg:grid-cols-2 gap-6">
+                    <div class="glass-panel p-6 rounded-xl">
+                        <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                            <i class="fas fa-sticky-note text-yellow-400"></i> Shared Notes
+                        </h3>
+                        <textarea id="shared-notes" rows="12" class="w-full bg-black/30 border border-white/10 rounded-lg p-3 text-sm" placeholder="API keys, credentials, judge feedback, team decisions..." oninput="saveNotes()"></textarea>
+                        <p class="text-xs text-gray-500 mt-2">Auto-saves to browser storage</p>
+                    </div>
+
+                    <div class="glass-panel p-6 rounded-xl">
+                        <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                            <i class="fas fa-clipboard-check text-green-400"></i> Pre-Submission Checklist
+                        </h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded transition-colors">
+                                <input type="checkbox" class="rounded bg-black/30 border-white/20">
+                                <span class="text-sm">Repo is public</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded transition-colors">
+                                <input type="checkbox" class="rounded bg-black/30 border-white/20">
+                                <span class="text-sm">README with setup instructions</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded transition-colors">
+                                <input type="checkbox" class="rounded bg-black/30 border-white/20">
+                                <span class="text-sm">Demo video recorded</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded transition-colors">
+                                <input type="checkbox" class="rounded bg-black/30 border-white/20">
+                                <span class="text-sm">All env variables documented</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded transition-colors">
+                                <input type="checkbox" class="rounded bg-black/30 border-white/20">
+                                <span class="text-sm">Tested in incognito mode</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded transition-colors">
+                                <input type="checkbox" class="rounded bg-black/30 border-white/20">
+                                <span class="text-sm">Mobile responsive</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded transition-colors">
+                                <input type="checkbox" class="rounded bg-black/30 border-white/20">
+                                <span class="text-sm">PPT presentation complete</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-2 hover:bg-white/5 rounded transition-colors">
+                                <input type="checkbox" class="rounded bg-black/30 border-white/20">
+                                <span class="text-sm">GitHub link in submission</span>
+                            </label>
+                        </div>
+                        
+                        <button onclick="exportData()" class="w-full mt-4 py-2 bg-white/10 hover:bg-white/20 border border-white/10 rounded-lg text-sm transition-colors">
+                            <i class="fas fa-download mr-2"></i>Export Backup
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Emergency Modal -->
+    <div id="emergency-modal" class="fixed inset-0 bg-black/90 z-[100] hidden flex items-center justify-center p-4">
+        <div class="glass-panel max-w-2xl w-full p-6 rounded-2xl border border-red-500/30 bg-red-900/10">
+            <h2 class="text-2xl font-bold text-red-400 mb-4 flex items-center gap-2">
+                <i class="fas fa-exclamation-triangle"></i> Emergency Protocols
+            </h2>
+            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                <div class="p-4 bg-red-500/10 rounded-lg border border-red-500/20">
+                    <h3 class="font-bold text-red-300 mb-2">Critical (DQ Risk)</h3>
+                    <ul class="text-sm space-y-1 text-gray-300">
+                        <li>• Pre-existing code detected → Remove NOW</li>
+                        <li>• Leaving without permission → Get faculty OK first</li>
+                        <li>• >30 min late → Instant DQ</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-yellow-500/10 rounded-lg border border-yellow-500/20">
+                    <h3 class="font-bold text-yellow-300 mb-2">Penalties</h3>
+                    <ul class="text-sm space-y-1 text-gray-300">
+                        <li>• Food/Call inside → Step outside (-5 pts)</li>
+                        <li>• Repo issues → Push NOW, make public</li>
+                        <li>• Broken code → Commit anyway (partial > nothing)</li>
+                    </ul>
+                </div>
+            </div>
+            <button onclick="closeEmergency()" class="w-full py-3 bg-red-600/20 hover:bg-red-600/30 border border-red-500/30 rounded-lg text-red-300 font-semibold transition-colors">
+                Close Emergency View
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // State Management
+        let hackEnd = parseInt(localStorage.getItem('tom_end')) || (Date.now() + 30 * 3600 * 1000);
+        let tasks = JSON.parse(localStorage.getItem('tom_tasks')) || [];
+        let snippets = JSON.parse(localStorage.getItem('tom_snippets')) || [];
+        let violations = JSON.parse(localStorage.getItem('tom_violations')) || [];
+        let teamSize = parseInt(localStorage.getItem('tom_teamsize')) || 5;
+        let bagUsed = localStorage.getItem('tom_bag') === 'true';
+        let presence = JSON.parse(localStorage.getItem('tom_presence')) || [true, true, true, true, true];
+        let taskFilter = 'all';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!localStorage.getItem('tom_end')) {
+                const hours = prompt('Hackathon duration in hours?', '30');
+                if (hours && !isNaN(hours)) {
+                    hackEnd = Date.now() + parseInt(hours) * 3600 * 1000;
+                    localStorage.setItem('tom_end', hackEnd);
+                }
+            }
+            
+            document.getElementById('team-size').value = teamSize;
+            if (bagUsed) markBagUsed();
+            
+            updateTimer();
+            setInterval(updateTimer, 1000);
+            renderTasks();
+            renderSnippets();
+            updatePresence();
+            loadNotes();
+            updateStats();
+        });
+
+        // Tab Switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(tabName).classList.remove('hidden');
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('tab-active');
+                if (btn.dataset.tab === tabName) btn.classList.add('tab-active');
+            });
+        }
+
+        // Timer Logic
+        function updateTimer() {
+            const now = Date.now();
+            const diff = hackEnd - now;
+            
+            if (diff <= 0) {
+                document.getElementById('countdown').textContent = "TIME UP";
+                document.getElementById('countdown').classList.add('urgent');
+                return;
+            }
+            
+            const h = Math.floor(diff / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+            
+            document.getElementById('countdown').textContent = 
+                `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            
+            // Update timeline
+            const total = 30 * 3600 * 1000;
+            const elapsed = total - diff;
+            const pct = Math.min(100, (elapsed / total) * 100);
+            document.getElementById('progress-timeline').style.width = pct + '%';
+            
+            // Determine phase
+            const hoursElapsed = elapsed / 3600000;
+            let phase = 'PLANNING';
+            let focus = 'Define core features for Round 1 judging. Don\'t code yet.';
+            let color = 'bg-blue-500/20 text-blue-300 border-blue-500/30';
+            
+            if (hoursElapsed > 27) {
+                phase = 'BUFFER';
+                focus = 'Final checks. Submit early if ready.';
+                color = 'bg-green-500/20 text-green-300 border-green-500/30';
+            } else if (hoursElapsed > 23) {
+                phase = 'PITCH PREP';
+                focus = 'Perfect the demo, record video, finalize PPT.';
+                color = 'bg-orange-500/20 text-orange-300 border-orange-500/30';
+            } else if (hoursElapsed > 20) {
+                phase = 'POLISH';
+                focus = 'UI/UX improvements, bug fixes, code cleanup.';
+                color = 'bg-pink-500/20 text-pink-300 border-pink-500/30';
+            } else if (hoursElapsed > 3) {
+                phase = 'BUILD';
+                focus = 'Core functionality. Backend > Frontend. Working > Pretty.';
+                color = 'bg-purple-500/20 text-purple-300 border-purple-500/30';
+            }
+            
+            document.getElementById('current-phase-badge').textContent = `PHASE: ${phase}`;
+            document.getElementById('current-phase-badge').className = `px-3 py-1 rounded-full text-xs font-bold border ${color}`;
+            document.getElementById('strategic-focus').textContent = focus;
+            
+            // Color coding timer
+            const timerEl = document.getElementById('countdown');
+            if (diff < 3600000) timerEl.style.color = '#ef4444';
+            else if (diff < 10800000) timerEl.style.color = '#f59e0b';
+            else timerEl.style.color = 'white';
+        }
+
+        // Tasks
+        function addTask() {
+            const title = prompt('Task description:');
+            if (!title) return;
+            const tag = prompt('Round tag (r1/r2/r3/general):', 'general');
+            const task = {
+                id: Date.now(),
+                title,
+                done: false,
+                tag: tag || 'general',
+                time: new Date().toLocaleTimeString()
+            };
+            tasks.push(task);
+            saveTasks();
+            renderTasks();
+            updateStats();
+        }
+
+        function toggleTask(id) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task.done = !task.done;
+                saveTasks();
+                renderTasks();
+                updateStats();
+            }
+        }
+
+        function deleteTask(id) {
+            tasks = tasks.filter(t => t.id !== id);
+            saveTasks();
+            renderTasks();
+            updateStats();
+        }
+
+        function filterTasks(filter) {
+            taskFilter = filter;
+            renderTasks();
+        }
+
+        function renderTasks() {
+            const list = document.getElementById('task-list');
+            let filtered = tasks;
+            if (taskFilter !== 'all') filtered = tasks.filter(t => t.tag === taskFilter);
+            
+            if (filtered.length === 0) {
+                list.innerHTML = '<div class="text-gray-500 text-center py-8">No tasks yet. Add one to get started.</div>';
+                return;
+            }
+            
+            list.innerHTML = filtered.map(task => `
+                <div class="flex items-center gap-3 p-3 bg-black/30 rounded-lg border border-white/10 ${task.done ? 'opacity-50' : ''}">
+                    <input type="checkbox" ${task.done ? 'checked' : ''} onchange="toggleTask(${task.id})" class="rounded bg-black/30 border-white/20">
+                    <div class="flex-1 ${task.done ? 'line-through text-gray-500' : ''}">
+                        <div class="text-sm font-medium">${task.title}</div>
+                        <div class="text-xs text-gray-500">${task.time}</div>
+                    </div>
+                    ${task.tag !== 'general' ? `<span class="round-badge round-${task.tag}">${task.tag.toUpperCase()}</span>` : ''}
+                    <button onclick="deleteTask(${task.id})" class="text-red-400 hover:text-red-300 px-2">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function saveTasks() {
+            localStorage.setItem('tom_tasks', JSON.stringify(tasks));
+        }
+
+        // Presence
+        function updatePresence() {
+            teamSize = parseInt(document.getElementById('team-size').value);
+            localStorage.setItem('tom_teamsize', teamSize);
+            
+            const minRequired = teamSize <= 3 ? 2 : teamSize === 4 ? 2 : 3;
+            document.getElementById('min-required').textContent = minRequired + ' present';
+            
+            // Adjust presence array size
+            while (presence.length < teamSize) presence.push(true);
+            presence = presence.slice(0, teamSize);
+            
+            const presentCount = presence.filter(p => p).length;
+            document.getElementById('current-present').textContent = presentCount + ' present';
+            document.getElementById('presence-text').textContent = presentCount + '/' + teamSize;
+            
+            // Update list
+            const list = document.getElementById('team-presence-list');
+            list.innerHTML = presence.map((present, idx) => `
+                <div class="flex items-center justify-between p-2 bg-black/30 rounded border border-white/10">
+                    <div class="flex items-center gap-2">
+                        <div class="presence-indicator ${present ? 'present' : 'absent'}"></div>
+                        <span class="text-sm">Member ${idx + 1}</span>
+                    </div>
+                    <button onclick="togglePresence(${idx})" class="text-xs px-2 py-1 rounded ${present ? 'bg-red-500/20 text-red-300' : 'bg-green-500/20 text-green-300'}">
+                        ${present ? 'Leave' : 'Return'}
+                    </button>
+                </div>
+            `).join('');
+            
+            // Compliance status
+            const status = document.getElementById('presence-status');
+            if (presentCount >= minRequired) {
+                status.className = 'flex items-center gap-2 text-sm font-semibold text-green-400';
+                status.innerHTML = '<i class="fas fa-check-circle"></i><span>Compliant</span>';
+            } else {
+                status.className = 'flex items-center gap-2 text-sm font-semibold text-red-400';
+                status.innerHTML = '<i class="fas fa-exclamation-triangle"></i><span>Violation!</span>';
+            }
+            
+            localStorage.setItem('tom_presence', JSON.stringify(presence));
+        }
+
+        function togglePresence(idx) {
+            presence[idx] = !presence[idx];
+            updatePresence();
+        }
+
+        function toggleMemberLeave() {
+            // Quick way to mark someone leaving
+            const idx = prompt('Which member number is leaving? (1-' + teamSize + ')');
+            if (idx && idx > 0 && idx <= teamSize) {
+                presence[idx - 1] = false;
+                updatePresence();
+            }
+        }
+
+        // Bag Access
+        function useBag() {
+            if (bagUsed) return;
+            if (confirm('Mark bag access as USED? (One time only for entire hackathon)')) {
+                bagUsed = true;
+                localStorage.setItem('tom_bag', 'true');
+                markBagUsed();
+            }
+        }
+
+        function markBagUsed() {
+            const el = document.getElementById('bag-status');
+            el.className = 'w-11 h-11 rounded-lg flex items-center justify-center bg-red-500/20 text-red-400 border border-red-500/30 cursor-not-allowed';
+            el.title = 'Bag Access: ALREADY USED';
+            el.innerHTML = '<i class="fas fa-lock"></i>';
+        }
+
+        // Violations
+        function logViolation(type, points) {
+            const violation = {
+                type,
+                points,
+                time: new Date().toLocaleTimeString(),
+                id: Date.now()
+            };
+            violations.push(violation);
+            saveViolations();
+            renderViolations();
+            updateStats();
+        }
+
+        function renderViolations() {
+            const log = document.getElementById('violation-log');
+            if (violations.length === 0) {
+                log.innerHTML = '<div class="text-gray-500 text-sm">No violations logged yet. Stay clean!</div>';
+                return;
+            }
+            
+            log.innerHTML = violations.map(v => `
+                <div class="flex justify-between items-center p-2 bg-red-500/10 rounded border border-red-500/20 text-sm">
+                    <div>
+                        <span class="text-red-400 font-bold">-${v.points} pts</span>
+                        <span class="text-gray-400 ml-2">${v.time}</span>
+                    </div>
+                    <button onclick="removeViolation(${v.id})" class="text-gray-500 hover:text-gray-300">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function removeViolation(id) {
+            violations = violations.filter(v => v.id !== id);
+            saveViolations();
+            renderViolations();
+            updateStats();
+        }
+
+        function saveViolations() {
+            localStorage.setItem('tom_violations', JSON.stringify(violations));
+        }
+
+        // Snippets
+        function addSnippet() {
+            const title = prompt('Snippet name:');
+            if (!title) return;
+            const lang = prompt('Language (js/html/css/py/etc):', 'js');
+            const code = prompt('Paste code:');
+            if (!code) return;
+            
+            snippets.push({
+                id: Date.now(),
+                title,
+                lang,
+                code
+            });
+            saveSnippets();
+            renderSnippets();
+        }
+
+        function renderSnippets() {
+            const list = document.getElementById('snippet-list');
+            if (snippets.length === 0) {
+                list.innerHTML = '<div class="text-gray-500 text-center py-8">No saved snippets. Add useful code blocks here.</div>';
+                return;
+            }
+            
+            list.innerHTML = snippets.map(s => `
+                <div class="glass-panel p-4 rounded-xl">
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono bg-indigo-500/20 text-indigo-300 px-2 py-1 rounded">${s.lang}</span>
+                            <span class="font-semibold">${s.title}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="copyToClipboard('${s.code.replace(/'/g, "\\'")}')" class="text-gray-400 hover:text-white px-2">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <button onclick="deleteSnippet(${s.id})" class="text-red-400 hover:text-red-300 px-2">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <pre class="code-block p-3 rounded-lg text-sm overflow-x-auto text-green-400">${escapeHtml(s.code)}</pre>
+                </div>
+            `).join('');
+        }
+
+        function deleteSnippet(id) {
+            snippets = snippets.filter(s => s.id !== id);
+            saveSnippets();
+            renderSnippets();
+        }
+
+        function saveSnippets() {
+            localStorage.setItem('tom_snippets', JSON.stringify(snippets));
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard!');
+            });
+        }
+
+        // API Tester
+        async function testAPI() {
+            const method = document.getElementById('api-method').value;
+            const url = document.getElementById('api-url').value;
+            const headers = document.getElementById('api-headers').value;
+            const body = document.getElementById('api-body').value;
+            
+            if (!url) {
+                alert('Please enter a URL');
+                return;
+            }
+            
+            document.getElementById('api-status').textContent = 'Loading...';
+            document.getElementById('api-status').className = 'text-xs px-2 py-1 rounded bg-yellow-600';
+            
+            try {
+                const options = {
+                    method: method,
+                    headers: headers ? JSON.parse(headers) : {}
+                };
+                
+                if (body && ['POST', 'PUT'].includes(method)) {
+                    options.body = body;
+                }
+                
+                const response = await fetch(url, options);
+                const data = await response.text();
+                
+                document.getElementById('api-status').textContent = `${response.status} ${response.statusText}`;
+                document.getElementById('api-status').className = `text-xs px-2 py-1 rounded ${response.ok ? 'bg-green-600' : 'bg-red-600'}`;
+                
+                try {
+                    const json = JSON.parse(data);
+                    document.getElementById('api-response').textContent = JSON.stringify(json, null, 2);
+                } catch {
+                    document.getElementById('api-response').textContent = data;
+                }
+            } catch (error) {
+                document.getElementById('api-status').textContent = 'Error';
+                document.getElementById('api-status').className = 'text-xs px-2 py-1 rounded bg-red-600';
+                document.getElementById('api-response').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        // Project Analyzer
+        function analyzeProject() {
+            const name = document.getElementById('proj-name').value || 'Unnamed Project';
+            const problem = document.getElementById('proj-problem').value;
+            const solution = document.getElementById('proj-solution').value;
+            const stack = document.getElementById('proj-stack').value;
+            
+            const hasCode = document.getElementById('has-code').checked;
+            const hasDocs = document.getElementById('has-docs').checked;
+            const hasPpt = document.getElementById('has-ppt').checked;
+            const hasDemo = document.getElementById('has-demo').checked;
+            const hasProto = document.getElementById('has-proto').checked;
+            
+            let score = 0;
+            let feedback = [];
+            let penalties = 0;
+            
+            // Round 1 scoring (estimated)
+            let r1Score = 0;
+            if (problem && problem.length > 50) r1Score += 3;
+            if (solution && solution.length > 100) r1Score += 3;
+            if (name !== 'Unnamed Project') r1Score += 2;
+            score += r1Score;
+            
+            // Round 2 scoring
+            let r2Score = 0;
+            if (stack && stack.includes('PostgreSQL')) r2Score += 3;
+            else if (stack) r2Score += 2;
+            if (hasCode) r2Score += 3;
+            score += r2Score;
+            
+            // Round 3 scoring
+            let r3Score = 0;
+            if (hasProto) r3Score += 5;
+            if (hasDemo) r3Score += 3;
+            score += r3Score;
+            
+            // Check components
+            const components = [
+                { name: 'Code Repo', present: hasCode },
+                { name: 'Documentation', present: hasDocs },
+                { name: 'Presentation', present: hasPpt },
+                { name: 'Demo Video', present: hasDemo }
+            ];
+            
+            const missing = components.filter(c => !c.present);
+            penalties = missing.length * 10;
+            
+            const resultDiv = document.getElementById('analysis-result');
+            resultDiv.classList.remove('hidden');
+            
+            resultDiv.innerHTML = `
+                <div class="glass-panel p-6 rounded-xl border-l-4 border-indigo-500">
+                    <h3 class="font-bold text-xl mb-4">Analysis Results</h3>
+                    
+                    <div class="grid md:grid-cols-3 gap-4 mb-6">
+                        <div class="text-center p-4 bg-blue-500/10 rounded-lg">
+                            <div class="text-2xl font-bold text-blue-400">${r1Score}/15</div>
+                            <div class="text-xs text-gray-400">Round 1</div>
+                        </div>
+                        <div class="text-center p-4 bg-purple-500/10 rounded-lg">
+                            <div class="text-2xl font-bold text-purple-400">${r2Score}/20</div>
+                            <div class="text-xs text-gray-400">Round 2</div>
+                        </div>
+                        <div class="text-center p-4 bg-pink-500/10 rounded-lg">
+                            <div class="text-2xl font-bold text-pink-400">${r3Score}/25</div>
+                            <div class="text-xs text-gray-400">Round 3</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-semibold">Estimated Score</span>
+                            <span class="text-2xl font-bold ${score > 30 ? 'text-green-400' : score > 20 ? 'text-yellow-400' : 'text-red-400'}">${score}/60</span>
+                        </div>
+                        ${penalties > 0 ? `
+                        <div class="flex justify-between items-center text-red-400">
+                            <span>Penalty Risk</span>
+                            <span class="font-bold">-${penalties} points</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                    
+                    ${missing.length > 0 ? `
+                    <div class="p-4 bg-red-500/10 rounded-lg border border-red-500/20 mb-4">
+                        <h4 class="font-bold text-red-400 mb-2">Missing Components (Will cost -10 pts each)</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-300">
+                            ${missing.map(m => `<li>${m.name}</li>`).join('')}
+                        </ul>
+                    </div>
+                    ` : ''}
+                    
+                    <div class="p-4 bg-yellow-500/10 rounded-lg border border-yellow-500/20">
+                        <h4 class="font-bold text-yellow-400 mb-2">Recommendations</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-300 space-y-1">
+                            ${!hasCode ? '<li>Push code to GitHub immediately</li>' : ''}
+                            ${!hasDocs ? '<li>Create README with setup instructions</li>' : ''}
+                            ${!stack?.includes('PostgreSQL') ? '<li>Consider using PostgreSQL for database (judges prefer it)</li>' : ''}
+                            ${r1Score < 10 ? '<li>Clarify problem statement in your pitch</li>' : ''}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Utility
+        function updateStats() {
+            const done = tasks.filter(t => t.done).length;
+            document.getElementById('tasks-complete').textContent = `${done}/${tasks.length}`;
+            
+            const penaltyTotal = violations.reduce((a, v) => a + v.points, 0);
+            document.getElementById('penalty-risk').textContent = penaltyTotal > 0 ? `-${penaltyTotal}` : 'LOW';
+            document.getElementById('penalty-risk').className = penaltyTotal > 0 ? 'text-2xl font-bold text-red-400' : 'text-2xl font-bold text-green-400';
+            
+            // R1 readiness estimate
+            const r1Tasks = tasks.filter(t => t.tag === 'r1' && t.done).length;
+            const r1Total = tasks.filter(t => t.tag === 'r1').length;
+            if (r1Total === 0) document.getElementById('r1-score').textContent = '--';
+            else document.getElementById('r1-score').textContent = Math.round((r1Tasks/r1Total)*100) + '%';
+        }
+
+        function updateStrategy() {
+            // Auto-save checklist state
+            const checkboxes = document.querySelectorAll('#strategy input[type="checkbox"]');
+            const state = Array.from(checkboxes).map(cb => cb.checked);
+            localStorage.setItem('tom_strategy', JSON.stringify(state));
+        }
+
+        // Team Sync
+        function saveNotes() {
+            const notes = document.getElementById('shared-notes').value;
+            localStorage.setItem('tom_notes', notes);
+        }
+
+        function loadNotes() {
+            const notes = localStorage.getItem('tom_notes');
+            if (notes) document.getElementById('shared-notes').value = notes;
+        }
+
+        function exportData() {
+            const data = {
+                tasks,
+                snippets,
+                violations,
+                presence,
+                timestamp: new Date().toISOString()
+            };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `tom-backup-${Date.now()}.json`;
+            a.click();
+        }
+
+        // Emergency
+        function emergencyProtocol() {
+            document.getElementById('emergency-modal').classList.remove('hidden');
+        }
+
+        function closeEmergency() {
+            document.getElementById('emergency-modal').classList.add('hidden');
+        }
+
+        function toggleZenMode() {
+            document.body.classList.toggle('fullscreen');
+            if (document.documentElement.requestFullscreen) {
+                if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+                else document.exitFullscreen();
+            }
+        }
+
+        // Load strategy checklist
+        window.addEventListener('load', () => {
+            const saved = localStorage.getItem('tom_strategy');
+            if (saved) {
+                const state = JSON.parse(saved);
+                const checkboxes = document.querySelectorAll('#strategy input[type="checkbox"]');
+                checkboxes.forEach((cb, idx) => {
+                    if (state[idx]) cb.checked = true;
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+```
